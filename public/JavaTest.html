@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Core Java Exam | SkillEdge</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #9e82ff;
+      --secondary: #ff7b00;
+      --dark: #0c0f1c;
+      --darker: #12162c;
+      --light: #ffffff;
+      --gray: #aaa;
+      --card-bg: #1b1f34;
+      --success: #4caf50;
+      --danger: #f44336;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body {
+      background-color: var(--dark);
+      color: var(--light);
+      line-height: 1.6;
+    }
+    
+    /* Header Styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 5%;
+      background-color: var(--darker);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo img {
+      height: 30px;
+    }
+    
+    .logo h1 {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    /* Navigation */
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+    
+    .nav-links a {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--secondary), #ff9500);
+      color: var(--light);
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 123, 0, 0.3);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 123, 0, 0.4);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      box-shadow: none;
+    }
+    
+    .btn-outline:hover {
+      background: rgba(158, 130, 255, 0.1);
+    }
+    
+    /* Exam Container */
+    .exam-container {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+    
+    .exam-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .exam-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .exam-info {
+      display: flex;
+      justify-content: space-between;
+      background-color: var(--card-bg);
+      padding: 15px 25px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .info-item i {
+      color: var(--primary);
+    }
+    
+    /* Question Card */
+    .question-card {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .question-text {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+    
+    .options-list {
+      list-style: none;
+    }
+    
+    .option-item {
+      margin-bottom: 15px;
+    }
+    
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      background-color: var(--darker);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .option-label:hover {
+      background-color: rgba(158, 130, 255, 0.1);
+    }
+    
+    .option-input {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+    
+    .option-input:checked {
+      background-color: var(--primary);
+    }
+    
+    /* Results Section */
+    .results-container {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      margin-top: 30px;
+    }
+    
+    .results-container h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    
+    .score-display {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin: 20px 0;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .pass {
+      color: var(--success);
+    }
+    
+    .fail {
+      color: var(--danger);
+    }
+    
+    .feedback {
+      margin: 20px 0;
+      font-size: 1.1rem;
+    }
+    
+    /* Certificate Section */
+    .certificate-container {
+      display: none;
+      background-color: #f9f5ff;
+      color: #333;
+      padding: 40px;
+      border-radius: 12px;
+      margin-top: 40px;
+      text-align: center;
+      border: 15px solid #e0d0ff;
+      position: relative;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .certificate-container::before {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      border: 2px dashed var(--primary);
+      pointer-events: none;
+    }
+    
+    .certificate-header {
+      margin-bottom: 30px;
+    }
+    
+    .certificate-header h3 {
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    
+    .certificate-header p {
+      color: #666;
+    }
+    
+    .certificate-body {
+      margin: 30px 0;
+    }
+    
+    .certificate-body h4 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    
+    .certificate-body p {
+      font-size: 1.1rem;
+      margin: 10px 0;
+    }
+    
+    .signatures {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+    
+    .signature {
+      text-align: center;
+    }
+    
+    .signature img {
+      height: 60px;
+      margin-bottom: 10px;
+    }
+    
+    .certificate-logo {
+      margin: 20px 0;
+    }
+    
+    .certificate-logo img {
+      height: 60px;
+    }
+    
+    .download-btn {
+      margin-top: 30px;
+      background: linear-gradient(135deg, var(--secondary), #ff9500);
+      color: white;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .exam-info {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .question-text {
+        font-size: 1.1rem;
+      }
+      
+      .certificate-header h3 {
+        font-size: 2rem;
+      }
+      
+      .certificate-body h4 {
+        font-size: 1.5rem;
+      }
+      
+      .signatures {
+        flex-direction: column;
+        gap: 30px;
+      }
+    }
+    .student-details-form {
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid var(--darker);
+  background-color: var(--darker);
+  color: var(--light);
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(158, 130, 255, 0.2);
+}
+/* Add this to your existing CSS */
+/* Certificate Container Styling */
+.certificate-container {
+  width: 800px;
+  height: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  position: relative;
+  box-sizing: border-box;
+  background-color: #f9f5ff;
+}
+
+/* Ensure all text is visible in PDF */
+.certificate-container * {
+  color: #333 !important;
+  background-color: transparent !important;
+}
+
+/* Signature styling */
+.signature img {
+  max-height: 60px;
+  max-width: 150px;
+}
+
+/* Center content vertically */
+.certificate-body {
+  margin: 40px 0;
+}
+
+/* Make sure borders are visible */
+.certificate-container::before {
+  border-color: #9e82ff !important;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .certificate-container, .certificate-container * {
+    visibility: visible;
+  }
+  .certificate-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 10px;
+    box-shadow: none;
+  }
+}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <h1>SkillEdge</h1>
+    </div>
+    
+    <nav>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Exam Container -->
+  <div class="exam-container">
+    <div class="exam-header">
+      <h2>Core Java Certification Exam</h2>
+      <p>Test your knowledge and earn your certificate by scoring 70% or above</p>
+    </div>
+    
+    <div class="exam-info">
+      <div class="info-item">
+        <i class="fas fa-question-circle"></i>
+        <span>20 Questions</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-clock"></i>
+        <span>30 Minutes</span>
+      </div>
+      <div class="info-item">
+        <i class="fas fa-check-circle"></i>
+        <span>70% Passing Score</span>
+      </div>
+    </div>
+    
+    <form id="examForm">
+      <!-- Question 1 -->
+      <div class="question-card">
+        <div class="question-text">1. Which of the following is NOT a valid Java data type?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q1" value="A" class="option-input">
+              <span>int</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q1" value="B" class="option-input">
+              <span>float</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q1" value="C" class="option-input">
+              <span>real</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q1" value="D" class="option-input">
+              <span>boolean</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 2 -->
+      <div class="question-card">
+        <div class="question-text">2. What is the correct syntax to create an object of class "Student"?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q2" value="A" class="option-input">
+              <span>Student obj = new Student();</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q2" value="B" class="option-input">
+              <span>Student obj = Student();</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q2" value="C" class="option-input">
+              <span>new obj = Student();</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q2" value="D" class="option-input">
+              <span>Student obj = new Student;</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 3 -->
+      <div class="question-card">
+        <div class="question-text">3. Which keyword is used to inherit a class in Java?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q3" value="A" class="option-input">
+              <span>implements</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q3" value="B" class="option-input">
+              <span>extends</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q3" value="C" class="option-input">
+              <span>inherits</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q3" value="D" class="option-input">
+              <span>super</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 4 -->
+      <div class="question-card">
+        <div class="question-text">4. What is the default value of a boolean variable in Java?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q4" value="A" class="option-input">
+              <span>true</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q4" value="B" class="option-input">
+              <span>false</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q4" value="C" class="option-input">
+              <span>0</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q4" value="D" class="option-input">
+              <span>null</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 5 -->
+      <div class="question-card">
+        <div class="question-text">5. Which collection class allows you to store key-value pairs?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q5" value="A" class="option-input">
+              <span>ArrayList</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q5" value="B" class="option-input">
+              <span>LinkedList</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q5" value="C" class="option-input">
+              <span>HashSet</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q5" value="D" class="option-input">
+              <span>HashMap</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 6 -->
+      <div class="question-card">
+        <div class="question-text">6. What is the correct way to handle exceptions in Java?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q6" value="A" class="option-input">
+              <span>try-catch-finally</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q6" value="B" class="option-input">
+              <span>if-else</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q6" value="C" class="option-input">
+              <span>switch-case</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q6" value="D" class="option-input">
+              <span>for loop</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 7 -->
+      <div class="question-card">
+        <div class="question-text">7. Which of the following is NOT an OOP concept in Java?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q7" value="A" class="option-input">
+              <span>Inheritance</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q7" value="B" class="option-input">
+              <span>Polymorphism</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q7" value="C" class="option-input">
+              <span>Compilation</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q7" value="D" class="option-input">
+              <span>Encapsulation</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 8 -->
+      <div class="question-card">
+        <div class="question-text">8. What is the output of: System.out.println(5 + "5");</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q8" value="A" class="option-input">
+              <span>10</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q8" value="B" class="option-input">
+              <span>55</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q8" value="C" class="option-input">
+              <span>Error</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q8" value="D" class="option-input">
+              <span>5</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 9 -->
+      <div class="question-card">
+        <div class="question-text">9. Which method must be implemented by a class that implements the Runnable interface?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q9" value="A" class="option-input">
+              <span>start()</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q9" value="B" class="option-input">
+              <span>run()</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q9" value="C" class="option-input">
+              <span>execute()</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q9" value="D" class="option-input">
+              <span>init()</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 10 -->
+      <div class="question-card">
+        <div class="question-text">10. What does JDBC stand for?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q10" value="A" class="option-input">
+              <span>Java Database Connectivity</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q10" value="B" class="option-input">
+              <span>Java Data Binding Classes</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q10" value="C" class="option-input">
+              <span>Java Development Backend Connection</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q10" value="D" class="option-input">
+              <span>Java Direct Byte Code</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 11 -->
+      <div class="question-card">
+        <div class="question-text">11. Which of these is NOT a valid Java identifier?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q11" value="A" class="option-input">
+              <span>myVariable</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q11" value="B" class="option-input">
+              <span>_value</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q11" value="C" class="option-input">
+              <span>123test</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q11" value="D" class="option-input">
+              <span>$amount</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 12 -->
+      <div class="question-card">
+        <div class="question-text">12. What is the purpose of the 'final' keyword in Java?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q12" value="A" class="option-input">
+              <span>To indicate that a variable's value cannot be changed</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q12" value="B" class="option-input">
+              <span>To indicate that a method cannot be overridden</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q12" value="C" class="option-input">
+              <span>To indicate that a class cannot be extended</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q12" value="D" class="option-input">
+              <span>All of the above</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 13 -->
+      <div class="question-card">
+        <div class="question-text">13. Which Java feature allows you to write methods with the same name but different parameters?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q13" value="A" class="option-input">
+              <span>Method overriding</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q13" value="B" class="option-input">
+              <span>Method overloading</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q13" value="C" class="option-input">
+              <span>Polymorphism</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q13" value="D" class="option-input">
+              <span>Inheritance</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 14 -->
+      <div class="question-card">
+        <div class="question-text">14. What is the default access modifier for a class member in Java?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q14" value="A" class="option-input">
+              <span>public</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q14" value="B" class="option-input">
+              <span>private</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q14" value="C" class="option-input">
+              <span>protected</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q14" value="D" class="option-input">
+              <span>package-private (no modifier)</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 15 -->
+      <div class="question-card">
+        <div class="question-text">15. Which of these is NOT a valid Java loop construct?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q15" value="A" class="option-input">
+              <span>for</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q15" value="B" class="option-input">
+              <span>while</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q15" value="C" class="option-input">
+              <span>do-while</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q15" value="D" class="option-input">
+              <span>repeat-until</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 16 -->
+      <div class="question-card">
+        <div class="question-text">16. What is the superclass of all classes in Java?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q16" value="A" class="option-input">
+              <span>Object</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q16" value="B" class="option-input">
+              <span>Class</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q16" value="C" class="option-input">
+              <span>Main</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q16" value="D" class="option-input">
+              <span>Super</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 17 -->
+      <div class="question-card">
+        <div class="question-text">17. Which Java 8 feature allows you to process collections in a declarative way?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q17" value="A" class="option-input">
+              <span>Stream API</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q17" value="B" class="option-input">
+              <span>Lambda expressions</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q17" value="C" class="option-input">
+              <span>Optional class</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q17" value="D" class="option-input">
+              <span>Default methods</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 18 -->
+      <div class="question-card">
+        <div class="question-text">18. What is the purpose of the 'static' keyword in Java?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q18" value="A" class="option-input">
+              <span>To create class-level variables and methods</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q18" value="B" class="option-input">
+              <span>To make a variable constant</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q18" value="C" class="option-input">
+              <span>To prevent method overriding</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q18" value="D" class="option-input">
+              <span>To improve performance</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 19 -->
+      <div class="question-card">
+        <div class="question-text">19. Which of these is NOT a valid way to create a thread in Java?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q19" value="A" class="option-input">
+              <span>Extending the Thread class</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q19" value="B" class="option-input">
+              <span>Implementing the Runnable interface</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q19" value="C" class="option-input">
+              <span>Using the Executor framework</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q19" value="D" class="option-input">
+              <span>Implementing the Threadable interface</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Question 20 -->
+      <div class="question-card">
+        <div class="question-text">20. What does JVM stand for in Java?</div>
+        <ul class="options-list">
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q20" value="A" class="option-input">
+              <span>Java Virtual Machine</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q20" value="B" class="option-input">
+              <span>Java Variable Manager</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q20" value="C" class="option-input">
+              <span>Java Version Manager</span>
+            </label>
+          </li>
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q20" value="D" class="option-input">
+              <span>Java Visual Modifier</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      
+      <div style="text-align: center; margin: 40px 0;">
+        <button type="button" id="submitBtn" class="btn">Submit Exam</button>
+      </div>
+    </form>
+    <!-- Student Details Form -->
+<div class="student-details-form" id="studentDetailsForm" style="display: none;">
+  <div class="question-card">
+    <h3>Certificate Details</h3>
+    <p>Please provide your information for the certificate</p>
+    
+    <div class="form-group">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" class="form-control" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="completionDate">Completion Date</label>
+      <input type="date" id="completionDate" class="form-control" required>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px;">
+      <button type="button" id="submitDetailsBtn" class="btn">Generate Certificate</button>
+    </div>
+  </div>
+</div>
+    <!-- Results Section -->
+    <div class="results-container" id="resultsContainer">
+      <h3>Exam Results</h3>
+      <div class="score-display" id="scoreDisplay">0%</div>
+      <p class="feedback" id="feedbackMessage"></p>
+      <div id="certificateBtnContainer" style="display: none;">
+        <button class="btn" id="viewCertificateBtn">View Certificate</button>
+      </div>
+      <button class="btn btn-outline" id="retakeBtn">Retake Exam</button>
+    </div>
+    
+  <!-- Certificate Section -->
+<div class="certificate-container" id="certificateContainer" style="display: none;">
+  <div class="certificate-header">
+    <div class="certificate-logo">
+      <img src="https://via.placeholder.com/150x60?text=SkillEdge" alt="SkillEdge Logo">
+    </div>
+    <h3>CERTIFICATE OF ACHIEVEMENT</h3>
+    <p>This is to certify that</p>
+  </div>
+  
+  <div class="certificate-body">
+    <h4 id="certificateName">[Student Name]</h4>
+    <p>has successfully completed the</p>
+    <p><strong>Core Java Certification Exam</strong></p>
+    <p>with a score of <strong id="certificateScore">[Score]</strong></p>
+    <p>on <span id="certificateDate">[Date]</span></p>
+  </div>
+  
+  <div class="signatures">
+    <div class="signature">
+      <img src="https://via.placeholder.com/150x60?text=Signature1" alt="Instructor Signature">
+      <p>Jane Smith</p>
+      <p>Senior Java Instructor</p>
+      <p>SkillEdge</p>
+    </div>
+    <div class="signature">
+      <img src="https://via.placeholder.com/150x60?text=Signature2" alt="Director Signature">
+      <p>John Doe</p>
+      <p>Director of Education</p>
+      <p>SkillEdge</p>
+    </div>
+  </div>
+  
+  <div class="certificate-logo">
+    <p>Certificate ID: <span id="certificateId">SKL-JAVA-2023-XXXX</span></p>
+    <button class="btn download-btn" id="downloadCertificateBtn">
+      <i class="fas fa-download"></i> Download Certificate
+    </button>
+  </div>
+</div>
+
+<script>
+// DOM elements
+const examForm = document.getElementById('examForm');
+const submitBtn = document.getElementById('submitBtn');
+const resultsContainer = document.getElementById('resultsContainer');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const feedbackMessage = document.getElementById('feedbackMessage');
+const certificateBtnContainer = document.getElementById('certificateBtnContainer');
+const viewCertificateBtn = document.getElementById('viewCertificateBtn');
+const studentDetailsForm = document.getElementById('studentDetailsForm');
+const submitDetailsBtn = document.getElementById('submitDetailsBtn');
+const certificateContainer = document.getElementById('certificateContainer');
+const retakeBtn = document.getElementById('retakeBtn');
+const downloadCertificateBtn = document.getElementById('downloadCertificateBtn');
+const examHeader = document.querySelector('.exam-header h2');
+const examDescription = document.querySelector('.exam-header p');
+
+// Global variables
+let currentExam = {};
+let correctAnswers = {};
+let selectedExamType = '';
+let examScore = 0;
+
+// Exam types available
+const examTypes = [
+  { id: 'core_java', name: 'Core Java', description: 'Test your fundamental Java knowledge' },
+  { id: 'java_oop', name: 'Java OOP Concepts', description: 'Object-Oriented Programming in Java' },
+  { id: 'java_collections', name: 'Java Collections', description: 'Java Collections Framework questions' },
+  { id: 'java_multithreading', name: 'Java Multithreading', description: 'Concurrency and threading in Java' },
+  { id: 'java_advanced', name: 'Advanced Java', description: 'Advanced Java concepts and features' }
+];
+
+// Initialize the page
+function initPage() {
+  // Create exam selection UI
+  createExamSelectionUI();
+  
+  // Set default completion date to today
+  document.getElementById('completionDate').valueAsDate = new Date();
+}
+
+// Create exam selection UI
+function createExamSelectionUI() {
+  const examContainer = document.querySelector('.exam-container');
+  
+  // Remove existing content except header
+  const examInfo = document.querySelector('.exam-info');
+  if (examInfo) examInfo.remove();
+  if (examForm) examForm.style.display = 'none';
+  if (resultsContainer) resultsContainer.style.display = 'none';
+  
+  // Create exam selection cards
+  const selectionDiv = document.createElement('div');
+  selectionDiv.className = 'exam-selection';
+  selectionDiv.innerHTML = `
+    <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary);">Select an Exam Type</h3>
+    <div class="exam-options" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+      ${examTypes.map(exam => `
+        <div class="exam-option-card" style="background-color: var(--card-bg); padding: 20px; border-radius: 10px; cursor: pointer; transition: all 0.3s ease;" 
+             onclick="loadExam('${exam.id}')">
+          <h4 style="margin-bottom: 10px; color: var(--primary);">${exam.name}</h4>
+          <p style="color: var(--gray); font-size: 0.9rem;">${exam.description}</p>
+          <div style="margin-top: 15px; display: flex; align-items: center;">
+            <i class="fas fa-question-circle" style="color: var(--secondary); margin-right: 10px;"></i>
+            <span>20 Questions</span>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  
+  // Insert after exam header
+  const examHeader = document.querySelector('.exam-header');
+  examHeader.parentNode.insertBefore(selectionDiv, examHeader.nextSibling);
+}
+
+// DOM elements and global variables (keep your existing ones)
+
+// Modified loadExam function
+async function loadExam(examType) {
+  try {
+    // Show loading state
+    document.querySelector('.exam-selection').innerHTML = `
+      <div style="text-align: center; padding: 40px;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+        <p style="margin-top: 15px;">Loading exam questions...</p>
+      </div>
+    `;
+    
+
+const response = await fetch(`/.netlify/functions/questions?examType=${examType}&limit=20`);
+    if (!response.ok) {
+      throw new Error('Failed to load exam questions');
+    }
+    
+    const questions = await response.json();
+    
+    // Store current exam data
+    currentExam = {
+      id: examType,
+      name: examTypes.find(e => e.id === examType).name,
+      questions: questions
+    };
+    
+    selectedExamType = examType;
+    
+    // Build correct answers object
+    correctAnswers = {};
+    questions.forEach((question, index) => {
+      correctAnswers[`q${index + 1}`] = question.correctAnswer;
+    });
+    
+    // Update exam header
+    examHeader.textContent = `${currentExam.name} Certification Exam`;
+    examDescription.textContent = examTypes.find(e => e.id === examType).description;
+    
+    // Generate exam form
+    generateExamForm(questions);
+    
+    // Hide selection and show exam form
+    document.querySelector('.exam-selection').style.display = 'none';
+    examForm.style.display = 'block';
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+  } catch (error) {
+    console.error('Error loading exam:', error);
+    document.querySelector('.exam-selection').innerHTML = `
+      <div style="text-align: center; padding: 40px; color: var(--danger);">
+        <i class="fas fa-exclamation-triangle" style="font-size: 2rem;"></i>
+        <p style="margin-top: 15px;">Failed to load exam. Please try again.</p>
+        <button class="btn" onclick="createExamSelectionUI()" style="margin-top: 20px;">Back to Exam Selection</button>
+      </div>
+    `;
+  }
+}
+
+
+// Generate exam form with questions
+function generateExamForm(questions) {
+  // Clear existing questions
+  while (examForm.firstChild) {
+    examForm.removeChild(examForm.firstChild);
+  }
+  
+  // Add questions to form
+  questions.forEach((question, index) => {
+    const questionCard = document.createElement('div');
+    questionCard.className = 'question-card';
+    
+    questionCard.innerHTML = `
+      <div class="question-text">${index + 1}. ${question.question}</div>
+      <ul class="options-list">
+        ${question.options.map((option, optIndex) => `
+          <li class="option-item">
+            <label class="option-label">
+              <input type="radio" name="q${index + 1}" value="${String.fromCharCode(65 + optIndex)}" class="option-input">
+              <span>${option}</span>
+            </label>
+          </li>
+        `).join('')}
+      </ul>
+    `;
+    
+    examForm.appendChild(questionCard);
+  });
+  
+  // Add submit button
+  const submitContainer = document.createElement('div');
+  submitContainer.style.cssText = 'text-align: center; margin: 40px 0;';
+  submitContainer.innerHTML = `
+    <button type="button" id="submitBtn" class="btn">Submit Exam</button>
+  `;
+  examForm.appendChild(submitContainer);
+  
+  // Reattach event listener
+  document.getElementById('submitBtn').addEventListener('click', submitExam);
+}
+
+// Submit exam handler
+function submitExam() {
+  // Calculate score
+  let score = 0;
+  const formData = new FormData(examForm);
+  
+  for (const [question, answer] of formData.entries()) {
+    if (correctAnswers[question] === answer) {
+      score++;
+    }
+  }
+  
+  const percentage = (score / 20) * 100;
+  examScore = percentage;
+  
+  // Display results
+  scoreDisplay.textContent = `${percentage.toFixed(0)}%`;
+  
+  if (percentage >= 70) {
+    scoreDisplay.className = 'score-display pass';
+    feedbackMessage.textContent = "Congratulations! You have passed the exam and earned your certificate.";
+    certificateBtnContainer.style.display = 'block';
+  } else {
+    scoreDisplay.className = 'score-display fail';
+    feedbackMessage.textContent = "You didn't pass this time. Please review the material and try again.";
+    certificateBtnContainer.style.display = 'none';
+  }
+  
+  examForm.style.display = 'none';
+  resultsContainer.style.display = 'block';
+  resultsContainer.scrollIntoView({ behavior: 'smooth' });
+}
+
+// View certificate button handler
+viewCertificateBtn.addEventListener('click', function() {
+  studentDetailsForm.style.display = 'block';
+  studentDetailsForm.scrollIntoView({ behavior: 'smooth' });
+});
+
+// Submit student details handler
+submitDetailsBtn.addEventListener('click', function() {
+  const fullName = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  let completionDate = document.getElementById('completionDate').value;
+  
+  // Validate inputs
+  if (!fullName) {
+    alert('Please enter your full name');
+    return;
+  }
+  
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Please enter a valid email address');
+    return;
+  }
+  
+  // Format date if provided
+  if (completionDate) {
+    completionDate = new Date(completionDate).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  } else {
+    completionDate = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+  
+  // Generate certificate ID
+  const certId = `SKL-${selectedExamType.toUpperCase()}-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+  
+  // Populate certificate
+  document.getElementById('certificateName').textContent = fullName;
+  document.getElementById('certificateScore').textContent = scoreDisplay.textContent;
+  document.getElementById('certificateDate').textContent = completionDate;
+  document.getElementById('certificateId').textContent = certId;
+  
+  // Update certificate header based on exam type
+  const examTypeName = examTypes.find(exam => exam.id === selectedExamType)?.name || 'Java';
+  document.querySelector('.certificate-body p:nth-child(3) strong').textContent = `${examTypeName} Certification Exam`;
+  
+  // Hide form and show certificate
+  studentDetailsForm.style.display = 'none';
+  certificateContainer.style.display = 'block';
+  certificateContainer.scrollIntoView({ behavior: 'smooth' });
+});
+
+// Retake exam handler
+retakeBtn.addEventListener('click', function() {
+  // Show exam selection again
+  createExamSelectionUI();
+  resultsContainer.style.display = 'none';
+  certificateContainer.style.display = 'none';
+  studentDetailsForm.style.display = 'none';
+  document.getElementById('studentDetailsForm').reset();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Download certificate handler
+downloadCertificateBtn.addEventListener('click', async function() {
+  try {
+    // Show loading indicator
+    downloadCertificateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+    downloadCertificateBtn.disabled = true;
+    
+    // Get certificate container
+    const certificateElement = document.getElementById('certificateContainer');
+    
+    // Use html2canvas with better configuration
+    const canvas = await html2canvas(certificateElement, {
+      scale: 2, // Higher quality
+      logging: false,
+      useCORS: true,
+      backgroundColor: '#f9f5ff',
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: certificateElement.scrollWidth,
+      windowHeight: certificateElement.scrollHeight
+    });
+    
+    // Initialize jsPDF with specific dimensions (A4 landscape)
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: [297, 210] // A4 landscape
+    });
+    
+    // Calculate dimensions to fit the certificate perfectly
+    const imgData = canvas.toDataURL('image/png');
+    const pdfWidth = pdf.internal.pageSize.getWidth() - 20; // 10mm margin on each side
+    const pdfHeight = pdf.internal.pageSize.getHeight() - 20;
+    const imgRatio = canvas.width / canvas.height;
+    
+    let imgWidth = pdfWidth;
+    let imgHeight = imgWidth / imgRatio;
+    
+    if (imgHeight > pdfHeight) {
+      imgHeight = pdfHeight;
+      imgWidth = imgHeight * imgRatio;
+    }
+    
+    // Center the image on the page
+    const x = (pdf.internal.pageSize.getWidth() - imgWidth) / 2;
+    const y = (pdf.internal.pageSize.getHeight() - imgHeight) / 2;
+    
+    // Add image to PDF
+    pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+    
+    // Generate filename
+    const fullName = document.getElementById('certificateName').textContent;
+    const examTypeName = examTypes.find(exam => exam.id === selectedExamType)?.name || 'Java';
+    const filename = `${examTypeName.replace(/\s+/g, '_')}_Certificate_${fullName.replace(/\s+/g, '_')}.pdf`;
+    
+    // Save the PDF
+    pdf.save(filename);
+    
+  } catch (err) {
+    console.error('Error generating PDF:', err);
+    alert('Error generating certificate. Please try again.');
+  } finally {
+    // Reset button state
+    downloadCertificateBtn.innerHTML = '<i class="fas fa-download"></i> Download Certificate';
+    downloadCertificateBtn.disabled = false;
+  }
+});
+
+// Initialize the page when loaded
+document.addEventListener('DOMContentLoaded', initPage);
+</script>
+</body>
+</html>

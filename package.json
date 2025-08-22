@@ -1,0 +1,19 @@
+{
+  "name": "skilledge-netlify",
+  "version": "1.0.0",
+  "description": "SkillEdge Java Exam deployed on Netlify",
+  "scripts": {
+    "build": "npm run build:functions && npm run build:html",
+    "build:functions": "mkdir -p netlify/functions && cp -r functions/* netlify/functions/",
+    "build:html": "mkdir -p dist && cp -r public/* dist/",
+    "start": "npm run build && netlify dev"
+  },
+  "dependencies": {
+    "mongoose": "^8.17.2",
+    "mongodb": "^6.18.0"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^2.0.0",
+    "netlify-cli": "^17.0.0"
+  }
+}
